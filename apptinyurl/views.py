@@ -13,7 +13,8 @@ def index(request):
     return render(request, 'apptinyurl/index.html')
 
 
-def redirect_to_site(request, short_url: str):
+def redirect_to_site(request, short_url):
+    print(short_url)
     url = get_object_or_404(Url, pk=short_url)
     url.clicks_number += 1
     url.save()
@@ -27,10 +28,9 @@ def create_short_url(url: str):
         hasher = hashlib.md5()
         hasher.update(url.encode())
         hasher.update(salt.encode())
-        short_url_a = hasher.hexdigest()
-        print(short_url_a)
-        short_url_part = short_url_a[:8]
-        short_url = settings.BASE_URL + "/" + short_url_part
+        hexdigest = hasher.hexdigest()
+        print(hexdigest)
+        short_url = hexdigest[:8]
         print(short_url)
         try:
             Url.objects.get(pk=short_url)
@@ -44,8 +44,6 @@ def shorten_url(request):
         short_url = create_short_url(url)
         new_url_object = Url(long_url=url, short_url=short_url)
         new_url_object.save()
-
-        # response_data = {}
-        # response_data['url'] = settings.SITE_URL + "/" + short_id
-        return render(request, 'apptinyurl/index.html', {'short_url': short_url})
+        response_data = settings.BASE_URL + "/" + short_url
+        return render(request, 'apptinyurl/index.html', {'short_url': response_data})
     return render(request, 'apptinyurl/index.html', {'error_message': 'Enter url!'})
