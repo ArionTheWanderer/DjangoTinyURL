@@ -12,7 +12,11 @@
         <form action="{% url 'tinyurl:shorten' %}" method="post">
         {% csrf_token %}
             <span>
-                <input type="url" name="url" id="url">
+                {% if long_url %}
+                    <input type="url" name="url" id="url" value="{{ long_url }}">
+                {% else %}
+                    <input type="url" name="url" id="url">
+                {% endif %}
                 <input type="submit" value="Shorten">
             </span>
         </form>
