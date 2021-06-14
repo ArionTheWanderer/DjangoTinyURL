@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Shorten your url!</title>
+</head>
+<body>
+    <div>
+        <h1>
+            Shorten your url!
+        </h1>
+        <form action="{% url 'tinyurl:shorten' %}" method="post">
+        {% csrf_token %}
+            <span>
+                <input type="url" name="url" id="url">
+                <input type="submit" value="Shorten">
+            </span>
+        </form>
+        <div>
+            {% if short_url %}<p>{{ short_url }}</p>{% endif %}
+            {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+        </div>
+    </div>
+</body>
+</html>
