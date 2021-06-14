@@ -2,9 +2,10 @@ import hashlib
 import random
 import string
 
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, Http404
 from django.shortcuts import render, get_object_or_404
 from django.conf import settings
+from django.urls import reverse
 
 from .models import Url
 
@@ -53,3 +54,11 @@ def shorten_url(request):
 def get_all_links(request):
     links_list = Url.objects.all().order_by('-clicks_number')
     return render(request, 'apptinyurl/all_links.html', {'links_list': links_list, 'site_url': settings.BASE_URL + "/"})
+
+
+def delete_link(request, short_url):
+    try:
+        Url.objects.get(pk=short_url).delete()
+    except Url.DoesNotExist:
+        raise Http404("Url does not exist")
+    return HttpResponseRedirect(reverse('tinyurl:all-links'))

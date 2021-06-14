@@ -5,20 +5,29 @@
     <title>All links</title>
 </head>
 <body>
+
     <table>
         <caption>All links</caption>
         <tr>
             <th>Short link</th>
             <th>Original link</th>
             <th>Clicks number</th>
+            <th>Delete short link</th>
         </tr>
         {% for link in links_list.all %}
             <tr>
                 <td> <a href="{{ site_url }}{{ link.short_url }}">{{ site_url }}{{ link.short_url }}</a>  </td>
                 <td> <a href="{{ link.long_url }}">{{ link.long_url }}</a> </td>
                 <td> {{ link.clicks_number }} </td>
+                <td>
+                    <form action="{% url 'tinyurl:delete-link' link.short_url %}" method="post">
+                        {% csrf_token %}
+                        <input name="delete" id="delete{{ link.short_url }}" type="submit" value="Delete">
+                    </form>
+                </td>
             </tr>
         {% endfor %}
     </table>
+
 </body>
 </html>
