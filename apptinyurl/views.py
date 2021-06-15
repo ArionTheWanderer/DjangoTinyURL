@@ -6,8 +6,24 @@ from django.http import HttpResponseRedirect, Http404
 from django.shortcuts import render, get_object_or_404
 from django.conf import settings
 from django.urls import reverse
+from django.views import generic
 
 from .models import Url
+
+
+class AllLinksView(generic.ListView):
+    """
+    Render 'All links page'
+    get_context_data: adds extra context data to a context object
+    queryset: defines list of objects to add to a context object
+    """
+
+    queryset = Url.objects.all().order_by('-clicks_number')
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['site_url'] = settings.BASE_URL
+        return context
 
 
 def index(request):
@@ -64,14 +80,6 @@ def shorten_url(request):
         return render(request, 'apptinyurl/index.html',
                       {'short_url': response_short_url, 'long_url': url})
     return render(request, 'apptinyurl/index.html', {'error_message': 'Enter url!'})
-
-
-def get_all_links(request):
-    """
-    Render 'All links' page
-    """
-    links_list = Url.objects.all().order_by('-clicks_number')
-    return render(request, 'apptinyurl/all_links.html', {'links_list': links_list, 'site_url': settings.BASE_URL})
 
 
 def delete_link(request, short_url):

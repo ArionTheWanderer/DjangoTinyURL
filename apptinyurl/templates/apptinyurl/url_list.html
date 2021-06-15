@@ -14,15 +14,15 @@
             <th>Clicks number</th>
             <th>Delete short link</th>
         </tr>
-        {% for link in links_list.all %}
+        {% for url in url_list.all %}
             <tr>
-                <td> <a href="{{ site_url }}{{ link.short_url }}">{{ site_url }}{{ link.short_url }}</a>  </td>
-                <td> <a href="{{ link.long_url }}">{{ link.long_url }}</a> </td>
-                <td> {{ link.clicks_number }} </td>
+                <td> <a href="{{ site_url }}{{ url.short_url }}">{{ site_url }}{{ url.short_url }}</a>  </td>
+                <td> <a href="{{ url.long_url }}">{{ url.long_url }}</a> </td>
+                <td> {{ url.clicks_number }} </td>
                 <td>
-                    <form action="{% url 'tinyurl:delete-link' link.short_url %}" method="post">
+                    <form action="{% url 'tinyurl:delete-link' url.short_url %}" method="post">
                         {% csrf_token %}
-                        <input name="delete" id="delete{{ link.short_url }}" type="submit" value="Delete">
+                        <input name="delete" id="delete{{ url.short_url }}" type="submit" value="Delete">
                     </form>
                 </td>
             </tr>
