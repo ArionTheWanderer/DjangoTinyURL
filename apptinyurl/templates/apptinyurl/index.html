@@ -2,27 +2,44 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <title>Shorten your url!</title>
 </head>
 <body>
-    <div>
+    <ul class="nav nav-tabs">
+        <li class="nav-item">
+            <a class="nav-link" href="{% url 'tinyurl:index' %}">Index</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{% url 'tinyurl:all-links' %}">All links</a>
+        </li>
+    </ul>
+    <div align="center">
         <h1>
             Shorten your url!
         </h1>
         <form action="{% url 'tinyurl:shorten' %}" method="post">
         {% csrf_token %}
-            <span>
+
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="basic-addon3">https://example.com/</span>
+                </div>
                 {% if long_url %}
-                    <input type="url" name="url" id="url" value="{{ long_url }}">
+                    <input class="form-control" aria-describedby="basic-addon3" type="url" name="url" id="url" value="{{ long_url }}">
                 {% else %}
-                    <input type="url" name="url" id="url">
+                    <input class="form-control" aria-describedby="basic-addon3" type="url" name="url" id="url">
                 {% endif %}
-                <input type="submit" value="Shorten">
-            </span>
+                <div class="input-group-append">
+                    <input class="btn btn-outline-secondary" type="submit" value="Shorten">
+                </div>
+            </div>
+
         </form>
         <div>
-            {% if short_url %}<p>{{ short_url }}</p>{% endif %}
-            {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+            {% if short_url %}<h5 class="font-weight-light">{{ short_url }}</h5>{% endif %}
+            {% if error_message %}<h5 class="font-weight-light"><strong>{{ error_message }}</strong></h5>{% endif %}
         </div>
     </div>
 </body>
