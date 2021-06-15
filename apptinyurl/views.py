@@ -9,6 +9,7 @@ from django.urls import reverse
 from django.views import generic
 from django.core.validators import URLValidator
 from django.core.exceptions import ValidationError
+from django.db.models import F
 
 
 from .models import Url
@@ -42,7 +43,7 @@ def redirect_to_site(request, short_url):
     :param short_url: short url of the site
     """
     url = get_object_or_404(Url, pk=short_url)
-    url.clicks_number += 1
+    url.clicks_number += F('click_number') + 1
     url.save()
     return HttpResponseRedirect(url.long_url)
 
