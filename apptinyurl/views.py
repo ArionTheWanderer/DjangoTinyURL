@@ -43,7 +43,7 @@ def redirect_to_site(request, short_url):
     :param short_url: short url of the site
     """
     url = get_object_or_404(Url, pk=short_url)
-    url.clicks_number += F('click_number') + 1
+    url.clicks_number += F('clicks_number') + 1
     url.save()
     return HttpResponseRedirect(url.long_url)
 
