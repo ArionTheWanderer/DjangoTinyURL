@@ -10,12 +10,21 @@ import random
 
 
 def create_fake_short_url():
+    """
+    Helper function creating fake short url just using random.choice
+    :return:
+    """
     chars = string.ascii_letters + string.digits
     fake_short_url = ''.join(random.choice(chars) for _ in range(settings.SHORT_URL_LENGTH))
     return fake_short_url
 
 
 def create_short_url(url):
+    """
+    Helper function creating a short url from the original
+    :param url: input url (original)
+    :return: short url without domain
+    """
     chars = string.ascii_letters + string.digits
     salt = ''.join(random.choice(chars) for _ in range(settings.SALT_LENGTH))
     hasher = hashlib.md5()
