@@ -18,6 +18,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # Site URL
 BASE_URL = "http://localhost:8000/"
 
+# Length of a generated short url
+SHORT_URL_LENGTH = 8
+
+# Length of a salt added to url before hashing
+SALT_LENGTH = 7
+
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
